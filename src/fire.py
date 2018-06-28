@@ -11,13 +11,14 @@ parser = OptionParser()
 parser = OptionParser("usage: %prog [options] ",
     version="%prog 1.0")
 
-rser.add_option("-p", "--port",
+parser.add_option("-p", "--port",
     action="store",
     type="string",
     dest="port",
+    default=0,
     help="2 digit country identifier")
 
-rser.add_option("-d", "--delay",
+parser.add_option("-d", "--delay",
     action="store",
     type="string",
     dest="delay",
@@ -26,19 +27,26 @@ rser.add_option("-d", "--delay",
 
 parser.add_option("--off",
     action="store_true",
-    dest="lightsOff")
+    dest="all_off")
 
-parser.add_option(
-    "--all",
+parser.add_option("--all",
     action="store_true",
-    dest="lightsOn")
+    dest="all_fire")
 
 (opts, args) = parser.parse_args()
 
 
-
-
-relays = [3, 5, 7, 11]
+relays = [29, 31, 33, 35]
+#relays = [29, 29, 31, 33, 35]
+#relays = []
+#relays.insert(1, 29)
+#relays.insert(2, 31)
+#relays.insert(3, 33)
+#relays.insert(4, 35)
+#relays[1] = 11
+#relays[2] = 13
+#relays[3] = 15
+#relays[4] = 19
 
 def setup():
 
@@ -46,24 +54,36 @@ def setup():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
     GPIO.setup(relays, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(tree, GPIO.OUT, initial=GPIO.HIGH)
 
 # Base function to turn relay on, pass it board gpio pin number
 def relay_on(relay):
-    #print "Relay on " + str(relay)
+    print "Relay on " + str(relay)
     GPIO.output(relay, GPIO.LOW)
     
 # Base function to turn relay off, pass it board gpio pin number
 def relay_off(relay):
-    #print "Relay off " + str(relay)
+    print "Relay off " + str(relay)
     GPIO.output(relay, GPIO.HIGH)
 
 
 setup()
 
-parser = OptionParser()
-parser.add_option("--off", action="store_true", dest="lightsOff")
-parser.add_option("--on", action="store_true", dest="lightsOn")
 
-(opts, args) = parser.parse_args()
 
+for port in relays:
+	relay_off(port)
+
+if opts.port == 0:
+	exit()
+
+ports = opts.port.split(",")
+delay = opts.delay
+
+print ports[0]
+            
+            
+for port in ports:
+    port = int(port) - 1
+    print "Port: ", port
+    relay_on(relays[port])
+    sleep(delay)
