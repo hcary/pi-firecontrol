@@ -36,7 +36,8 @@ parser.add_option("--all",
 (opts, args) = parser.parse_args()
 
 
-relays = [29, 31, 33, 35]
+#relays = [29, 31, 33, 35]
+relays = [29, 31, 33]
 #relays = [29, 29, 31, 33, 35]
 #relays = []
 #relays.insert(1, 29)
