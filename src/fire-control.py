@@ -59,12 +59,12 @@ def setup():
 # Base function to turn relay on, pass it board gpio pin number
 def relay_on(relay):
     print "Relay on " + str(relay)
-    GPIO.output(relay, GPIO.LOW)
+    GPIO.output(relay, GPIO.HIGH)
     
 # Base function to turn relay off, pass it board gpio pin number
 def relay_off(relay):
     print "Relay off " + str(relay)
-    GPIO.output(relay, GPIO.HIGH)
+    GPIO.output(relay, GPIO.LOW)
 
 
 setup()
@@ -88,3 +88,9 @@ for port in ports:
     print "Port: ", port
     relay_on(relays[port])
     sleep(delay)
+
+sleep(2)
+
+for port in relays:
+	relay_off(port)
+
